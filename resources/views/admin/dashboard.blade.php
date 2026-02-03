@@ -135,9 +135,10 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const ctx = document.getElementById('visitorChart').getContext('1d');
+const ctx = document.getElementById('visitorChart').getContext('2d');
+
 new Chart(ctx, {
     type: 'bar',
     data: {

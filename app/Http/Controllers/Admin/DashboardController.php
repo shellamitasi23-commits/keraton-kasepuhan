@@ -12,9 +12,11 @@ class DashboardController extends Controller
    public function index()
 {
     // Total tiket terjual
-    $totalTickets = TicketTransaction::count();
+        $totalTickets = TicketTransaction::where('status', 'paid')
+            ->sum('total_ticket');
 
-    // Pendapatan Merchandise - PERBAIKI INI
+
+        // Pendapatan Merchandise - PERBAIKI INI
      $merchRevenue = Order::sum('total_price');
 
     // Total users (sudah benar)

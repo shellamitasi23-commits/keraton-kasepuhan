@@ -42,13 +42,13 @@
                 
                 <div class="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
                     @if($product->image && file_exists(public_path('storage/' . $product->image)))
-                        {{-- Gambar Asli --}}
+                        <img src="{{ asset('storage/' . $product->image) }}" 
                              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                              alt="{{ $product->name }}"
                              loading="lazy"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         
-                        {{-- Fallback jika gambar error --}}
+                        <div class="hidden w-full h-full items-center justify-center bg-gradient-to-br from-[#103120]/5 to-[#E89020]/5">
                             <div class="text-center p-6">
                                 <svg class="w-20 h-20 mx-auto text-gray-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     @else
-                        {{-- Placeholder Jika Tidak Ada Gambar --}}
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#103120]/10 to-[#E89020]/10">
                             <div class="text-center p-6">
                                 <svg class="w-20 h-20 mx-auto text-[#103120]/30 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -69,8 +69,9 @@
                     
                     {{-- Badge Overlay Container --}}
                     <div class="absolute top-0 left-0 right-0 p-3 flex items-start justify-between">
-                        {{-- Stock Status Badge (Kiri) --}}
+                        {{-- ✅ FIXED: Stock Status Badge (Kiri) dengan @if yang benar --}}
                         <span class="inline-flex items-center
+                            @if($product->stock > 10) bg-green-500
                             @elseif($product->stock > 0) bg-yellow-500
                             @else bg-red-500
                             @endif
@@ -143,7 +144,6 @@
             </div>
         </div>
 
-        {{-- Area Tombol Action --}}
         @if($product->stock > 0)
             <div class="flex flex-col gap-3">
                 
@@ -165,7 +165,7 @@
 
             </div>
         @else
-            {{-- Tombol Stok Habis --}}
+            <button type="button" disabled
                     class="w-full bg-gray-100 text-gray-400 py-3.5 rounded-xl font-bold cursor-not-allowed flex items-center justify-center gap-2 border border-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
@@ -175,7 +175,7 @@
         @endif
     </form>
 @else
-    {{-- Tombol Login untuk Guest --}}
+    <div class="mt-auto">
         <button onclick="document.getElementById('loginModal').showModal()" 
                 class="w-full bg-[#103120] text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-[#0b2416] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -193,7 +193,6 @@
     @endif
 </div>
 
-{{-- Auto-hide Alert Script --}}
 @if(session('success') || session('error'))
 <script>
     setTimeout(function() {

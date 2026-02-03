@@ -19,54 +19,53 @@
             </a>
         </div>
 
-        <div class="flex items-center gap-4">
-           @auth
-                <a href="{{ route('shop.cart') }}" 
-                   class="relative text-white hover:text-yellow-400 transition group" 
-                   title="Lihat Keranjang">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
+       <div class="flex items-center gap-4">
+    @auth
+        <a href="{{ route('shop.cart') }}" 
+           class="relative text-white hover:text-yellow-400 transition group" 
+           title="Lihat Keranjang">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
 
-                    @php
-                        // Hitung cart count otomatis jika belum di-pass dari controller
-                        $cartCount = $cartCount ?? \App\Models\Cart::where('user_id', Auth::id())->sum('quantity');
-                    @endphp
+            @php
+                // Hitung cart count otomatis jika belum di-pass dari controller
+                $cartCount = $cartCount ?? \App\Models\Cart::where('user_id', Auth::id())->sum('quantity');
+            @endphp
 
-                    @if($cartCount > 0)
-                        <span class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-[#103120] animate-pulse">
-                            {{ $cartCount > 99 ? '99+' : $cartCount }}
-                        </span>
-                    @endif
-                </a>
+            @if($cartCount > 0)
+                <span class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-[#103120] animate-pulse">
+                    {{ $cartCount > 99 ? '99+' : $cartCount }}
+                </span>
+            @endif
+        </a>
 
-                <a href="{{ route('profile.index') }}" 
-                   class="flex items-center gap-2 hover:opacity-90 transition group bg-white/10 rounded-full pl-1 pr-3 py-1">
-                    
-                    <div class="relative">
-                        @if(Auth::user()->avatar)
-                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" 
-                                 class="h-8 w-8 rounded-full object-cover border-2 border-yellow-400" 
-                                 alt="Avatar">
-                        @else
-                            <div class="h-8 w-8 rounded-full bg-yellow-400 flex items-center justify-center border-2 border-yellow-400">
-                                <span class="text-[#103120] font-bold text-sm">
-                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                                </span>
-                            </div>
-                        @endif
-                        <span class="text-yellow-400 text-lg ml-1">●</span>
-                    </div>
-                    
-                    <span class="font-semibold text-sm text-white group-hover:text-yellow-400 transition">
-                            {{ explode(' ', Auth::user()->name)[0] }}
-                        </span>
-                        <span class="text-[10px] text-gray-300 hidden lg:block">
-                            Lihat Profil
-                        </span>
-                    </div>
-                </a>
-
+        <a href="{{ route('profile.index') }}" 
+           class="flex items-center gap-2 hover:opacity-90 transition group bg-white/10 rounded-full px-3 py-1.5">
+            
+            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-white overflow-hidden">
+                @if(Auth::user()->avatar)
+                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                         alt="Avatar"
+                         class="w-full h-full object-cover">
+                @else
+                    <span class="text-[#103120] font-bold text-sm">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </span>
+                @endif
+            </div>
+            
+            <div class="flex flex-col items-start">
+                <span class="font-semibold text-sm text-white group-hover:text-yellow-400 transition leading-tight">
+                    {{ explode(' ', Auth::user()->name)[0] }}
+                </span>
+                <span class="text-[10px] text-gray-300 hidden lg:block leading-tight">
+                    Lihat Profil
+                </span>
+            </div>
+            
+            <span class="text-yellow-400 text-xs ml-1">●</span>
+        </a>
                 {{-- Logout Button --}}
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     <button type="submit" 

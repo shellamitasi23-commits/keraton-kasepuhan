@@ -26,7 +26,7 @@
                 </div>
             </form>
 
-            <div class="text-center md:text-left">
+            <div class="text-left md:text-left">
                 <h2 class="serif text-3xl font-bold">{{ Auth::user()->name }}</h2>
                 <p class="opacity-90 font-medium">{{ Auth::user()->email }}</p>
                 <p class="opacity-90 font-medium">{{ Auth::user()->phone }}</p>
